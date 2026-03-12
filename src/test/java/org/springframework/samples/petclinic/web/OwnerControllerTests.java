@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.containsString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -91,39 +92,57 @@ class OwnerControllerTests {
     void testInitFindForm() throws Exception {
         mockMvc.perform(get("/owners/find"))
             .andExpect(status().isOk())
-            .andExpect(model().attributeExists("owner"))
-            .andExpect(view().name("owners/findOwners"));
+            .andExpect(content().string(containsString("vue-app")));
     }
 
     @Test
-    void testProcessFindFormSuccess() throws Exception {
-        given(this.clinicService.findOwnerByLastName("")).willReturn(Lists.newArrayList(george, new Owner()));
-
+    void testOwnersPageServesVueHtml() throws Exception {
         mockMvc.perform(get("/owners"))
             .andExpect(status().isOk())
-            .andExpect(view().name("owners/ownersList"));
+            .andExpect(content().string(containsString("vue-app")));
     }
 
     @Test
-    void testProcessFindFormByLastName() throws Exception {
+    void testOwnersPageEmbedsResultsForMultipleMatches() throws Exception {
+        given(this.clinicService.findOwnerByLastName("")).willReturn(Lists.newArrayList(george, new Owner()));
+
+        mockMvc.perform(get("/owners").param("lastName", ""))
+            .andExpect(status().isOk())
+            .andExpect(content().string(containsString("__PETCLINIC_OWNERS__")));
+    }
+
+    @Test
+    void testOwnersPageRedirectsForSingleMatch() throws Exception {
         given(this.clinicService.findOwnerByLastName(george.getLastName())).willReturn(Lists.newArrayList(george));
 
-        mockMvc.perform(get("/owners")
-            .param("lastName", "Franklin")
-        )
+        mockMvc.perform(get("/owners").param("lastName", "Franklin"))
             .andExpect(status().is3xxRedirection())
-            .andExpect(view().name("redirect:/owners/" + TEST_OWNER_ID));
+            .andExpect(redirectedUrl("/owners/" + TEST_OWNER_ID));
     }
 
     @Test
-    void testProcessFindFormNoOwnersFound() throws Exception {
-        mockMvc.perform(get("/owners")
-            .param("lastName", "Unknown Surname")
-        )
+    void testOwnersPageEmbedsErrorForNoMatch() throws Exception {
+        mockMvc.perform(get("/owners").param("lastName", "Unknown Surname"))
             .andExpect(status().isOk())
-            .andExpect(model().attributeHasFieldErrors("owner", "lastName"))
-            .andExpect(model().attributeHasFieldErrorCode("owner", "lastName", "notFound"))
-            .andExpect(view().name("owners/findOwners"));
+            .andExpect(content().string(containsString("__PETCLINIC_ERROR__")))
+            .andExpect(content().string(containsString("has not been found")));
+    }
+
+    @Test
+    void testSearchOwnersApiReturnsJson() throws Exception {
+        given(this.clinicService.findOwnerByLastName("")).willReturn(Lists.newArrayList(george, new Owner()));
+
+        mockMvc.perform(get("/api/owners"))
+            .andExpect(status().isOk())
+            .andExpect(content().string(containsString("George")))
+            .andExpect(content().string(containsString("Franklin")));
+    }
+
+    @Test
+    void testSearchOwnersApiNoResults() throws Exception {
+        mockMvc.perform(get("/api/owners").param("lastName", "Unknown Surname"))
+            .andExpect(status().isOk())
+            .andExpect(content().string("[]"));
     }
 
     @Test
