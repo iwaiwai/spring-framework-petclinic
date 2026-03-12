@@ -14,5 +14,10 @@ bin/
 # Maven
 target/
 
+# Node / Playwright
+node_modules/
+test-results/
+playwright-report/
+
 # OS
 .DS_Store
