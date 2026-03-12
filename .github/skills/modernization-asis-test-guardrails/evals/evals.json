@@ -1,0 +1,137 @@
+{
+  "skill_name": "modernization-asis-test-guardrails",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Analyze the Find Owners screen in this PetClinic app and produce As-Is guardrail artifacts. Start the legacy application, inspect the running screen at localhost, and generate a screen spec, prioritized test scenarios, Playwright E2E tests, and a preserve-vs-change decision log. Make sure to capture validation behavior and the search-with-no-results case.",
+      "expected_output": "Should produce: tests/e2e/find-owners.spec.ts with passing Playwright tests, docs/modernization/find-owners-screen-spec.md, docs/modernization/find-owners-test-scenarios.md, docs/modernization/find-owners-preserve-vs-change.md, artifacts/observations/find-owners-observations.md, runtime screenshots in test-results/, and curated handoff screenshots in artifacts/screenshots/find-owners/. The screen spec should list all search capabilities. Tests should cover empty search, specific name search, and not-found scenarios.",
+      "files": [],
+      "expectations": [
+        "A Playwright test file exists at tests/e2e/find-owners.spec.ts",
+        "The test file contains tests for searching by last name",
+        "The test file contains a test for the not-found case",
+        "A screen spec markdown file exists in docs/modernization/",
+        "The screen spec contains a Capabilities section listing search functions",
+        "A preserve-vs-change markdown exists with Must Preserve and Acceptable Changes sections",
+        "An observations markdown exists with CONFIRMED and INFERRED sections",
+        "Screenshots were captured in test-results/",
+        "Curated screenshots were saved in artifacts/screenshots/",
+        "Findings are classified with evidence levels (CONFIRMED/INFERRED/NEEDS-DECISION)",
+        "The test scenarios document includes priority levels (P0-P5)"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Inspect the running owner creation form at localhost:8080/owners/new and draft prioritized E2E test scenarios. Focus on all validation rules and edge cases. I need to know every error message and what triggers it.",
+      "expected_output": "Should produce a test scenarios document listing all validations for the owner form (first name, last name, address, city, telephone) with exact error messages observed from the running app. Should include Playwright tests that verify each validation rule. Priority should be P2 for validations.",
+      "files": [],
+      "expectations": [
+        "Test scenarios document lists validation rules for owner form fields",
+        "Exact error message text is captured from the running application",
+        "Findings are marked as CONFIRMED when observed at runtime",
+        "Playwright tests exercise empty-field submission",
+        "Playwright tests exercise invalid telephone input",
+        "Each scenario has a priority level assigned"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Generate Playwright tests for the current veterinarian list screen. Make sure to capture the data display behavior, column structure, and the JSON export endpoint at /vets.json.",
+      "expected_output": "Should produce tests/e2e/vet-list.spec.ts with tests covering: vet list display with columns (Name, Specialties), known test data verification (e.g., James Carter), and JSON endpoint response validation. Should also produce a screen spec documenting the vet list capabilities.",
+      "files": [],
+      "expectations": [
+        "A Playwright test file exists for the vet list screen",
+        "Tests verify the table column headers are visible",
+        "Tests verify known seeded vet data is displayed",
+        "Tests verify the /vets.json endpoint returns valid JSON",
+        "A screen spec document describes the vet list capabilities",
+        "Tests use stable locators (role-based or text-based) rather than fragile CSS selectors"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Before we rewrite the owner details page in Vue.js, summarize everything that must be preserved. The owner details page shows owner info, their pets, visit history, and has links to edit owner, add pet, edit pet, and add visit. I need a complete preserve-vs-change decision log and an observations log.",
+      "expected_output": "Should produce docs/modernization/owner-details-preserve-vs-change.md and artifacts/observations/owner-details-observations.md. The preserve log should list all must-preserve behaviors (owner info display, pet listing, visit history, all navigation links) and acceptable changes (page reload patterns, layout). The observations log should separate CONFIRMED from INFERRED findings.",
+      "files": [],
+      "expectations": [
+        "A preserve-vs-change document exists for the owner details screen",
+        "The document lists pet listing display as must-preserve",
+        "The document lists visit history display as must-preserve",
+        "The document lists edit/add navigation links as must-preserve",
+        "Acceptable changes section exists with MPA-to-SPA transition notes",
+        "An observations log exists with CONFIRMED and INFERRED sections",
+        "A requires-human-decision section addresses any ambiguous behavior"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Do a deep analysis of the pet creation form at /owners/{ownerId}/pets/new. I need to know every field, every validation rule, the pet type dropdown options, the date picker behavior, and what happens after successful submission. Generate tests and a complete screen spec.",
+      "expected_output": "Should produce a screen spec listing all form fields (Name, Birth Date, Type), validation rules, the pet type dropdown options from the database, date input behavior, and the post-submit redirect. Should produce Playwright tests covering happy path, validation errors, and all pet types. Evidence should be primarily CONFIRMED from runtime.",
+      "files": [],
+      "expectations": [
+        "Screen spec lists all form fields (Name, Birth Date, Type)",
+        "Screen spec lists available pet type options from the dropdown",
+        "Screen spec documents what happens after successful pet creation",
+        "Playwright tests cover successful pet creation",
+        "Playwright tests cover validation errors for empty required fields",
+        "The pet type dropdown options are captured from the running application",
+        "Evidence level for form fields and validation is marked as CONFIRMED"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Compare the legacy owner search flow running on :8080 against the expected behavior for a Vue.js SPA version. The legacy search does a full page reload on submit, navigates directly to details when there's one result, and shows a table for multiple results. Identify which behaviors must be preserved and which are acceptable MPA-to-SPA differences.",
+      "expected_output": "Should produce a preserve-vs-change document that explicitly separates: must-preserve (search by name, direct navigation on single result, table display for multiple results, not-found message) from acceptable-change (full page reload becomes SPA routing, form submit becomes async request). Should flag any unknowns.",
+      "files": [],
+      "expectations": [
+        "Search-by-name behavior is classified as must-preserve",
+        "Single-result direct navigation is classified as must-preserve",
+        "Multiple-results table display is classified as must-preserve",
+        "Page reload on search is classified as acceptable-change",
+        "The document distinguishes between business behavior and interaction pattern",
+        "Unknowns or ambiguous behaviors are explicitly listed"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Review the observations log for the owner management screens. Some findings are marked as INFERRED. Help me confirm or refute them by testing against the running app at localhost:8080. Update the evidence levels based on what you observe.",
+      "expected_output": "Should read the existing observations log, identify INFERRED items, test each one against the running application, and update the evidence levels. Items confirmed at runtime should be upgraded to CONFIRMED with a note on how they were verified. Items that don't match should be corrected.",
+      "files": [],
+      "expectations": [
+        "The agent reads existing INFERRED observations",
+        "The agent tests INFERRED items against the running application",
+        "Successfully verified items are upgraded to CONFIRMED",
+        "Items that don't match expectations are corrected with actual behavior",
+        "Each verification includes a description of how it was confirmed",
+        "Any remaining INFERRED items explain why they couldn't be verified"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "We already completed As-Is analysis for Find Owners. I now want to build a ToBe screen safely. Recommend the most reliable approach and give me ready-to-run prompts.",
+      "expected_output": "Should enforce separation: As-Is skill finalizes contract and handoff, then a dedicated To-Be implementation skill performs implementation. Must provide concrete prompts for both handoff and To-Be skill creation/execution, with strict sequence and risk controls.",
+      "files": [],
+      "expectations": [
+        "Response enforces separation between As-Is handoff and To-Be implementation execution",
+        "Response explicitly references As-Is guardrail artifacts as contract inputs",
+        "Response includes a ready-to-run handoff prompt for As-Is re-validation",
+        "Response includes a ready-to-run prompt for dedicated To-Be skill creation",
+        "Response defines a strict execution sequence with human review before To-Be implementation",
+        "Response distinguishes must-preserve behavior from acceptable modernization changes"
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Given these completed artifacts: tests/e2e/find-owners.spec.ts and docs/modernization/find-owners-screen-spec.md, generate a migration handoff pack for the engineer implementing Vue.js. Keep URL/transition/message parity strict.",
+      "expected_output": "Should produce an implementation handoff emphasizing strict parity constraints, test-first verification, and a phased rollout sequence. Must include explicit preserve list and validation commands to run after implementation.",
+      "files": [],
+      "expectations": [
+        "The handoff states strict parity for URL, transitions, and user-visible messages",
+        "The handoff includes a must-preserve behavior list derived from As-Is artifacts",
+        "The handoff includes verification commands for Playwright and Maven tests",
+        "The handoff recommends phased rollout or coexistence strategy for migration safety",
+        "The handoff identifies top migration risks and mitigation actions"
+      ]
+    }
+  ]
+}

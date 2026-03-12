@@ -1,0 +1,82 @@
+{
+  "skill_name": "modernization-tobe-vue-ts-implementation",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Implement the ToBe Vue 3 + TypeScript version of the Find Owners screen. The As-Is artifacts are already available at tests/e2e/find-owners.spec.ts and docs/modernization/find-owners-screen-spec.md and docs/modernization/find-owners-preserve-vs-change.md. The new implementation must be fully JSP-independent, preserve URL compatibility (/owners/find, /owners), and pass all existing Playwright E2E tests. Use Vue 3 Composition API with TypeScript strict mode.",
+      "expected_output": "Should produce Vue 3 SFC components for the Find Owners screen (search form + results table), TypeScript interfaces, API client, Vue Router config, Vite build config, and any necessary Spring REST controller additions. All existing Playwright E2E tests at tests/e2e/find-owners.spec.ts must pass. Backend tests (./mvnw -q test) must also pass. A structured migration summary must be provided.",
+      "files": [],
+      "expectations": [
+        "Vue 3 SFC component files are created under src/main/frontend/",
+        "Components use <script setup lang=\"ts\"> syntax (Composition API)",
+        "TypeScript interfaces are defined for Owner data",
+        "The implementation does not embed Vue inside a JSP page as the final solution",
+        "The screen spec at docs/modernization/find-owners-screen-spec.md is read and referenced",
+        "The preserve-vs-change log at docs/modernization/find-owners-preserve-vs-change.md is read",
+        "Playwright E2E tests are executed with: npx playwright test tests/e2e/find-owners.spec.ts",
+        "Backend tests are executed with: ./mvnw -q test",
+        "URL paths /owners/find and /owners are preserved",
+        "A final migration summary is provided in the required format"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Now implement the ToBe Vue 3 + TypeScript version of the Owner Details screen. This is a horizontal expansion from the Find Owners migration. Use the same frontend architecture established for Find Owners. Read the As-Is artifacts at tests/e2e/owner-details.spec.ts and docs/modernization/owner-details-screen-spec.md. The owner details page shows owner info, their pets, visit history, and has links to edit owner, add pet, edit pet, and add visit.",
+      "expected_output": "Should produce Vue 3 components for the Owner Details screen that show owner information, pet listing with visit history, and all navigation links (edit owner, add/edit pet, add visit). Components should integrate with the existing frontend architecture from Find Owners. Must pass E2E tests and backend tests.",
+      "files": [],
+      "expectations": [
+        "Vue components are created for Owner Details display",
+        "Components show owner info, pet listing, and visit history",
+        "Navigation links for edit/add operations are present",
+        "The implementation follows the same architecture as Find Owners (reuses types, API patterns)",
+        "As-Is screen spec is read before implementation begins",
+        "Missing As-Is artifacts are reported if they don't exist",
+        "A migration summary in the required format is produced",
+        "Verification commands are executed (Playwright + Maven)"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Implement the ToBe Vue 3 + TypeScript version of the Add/Edit Pet form. This is a form-heavy screen with pet name input, birth date picker, and pet type dropdown. Use the existing frontend architecture. Read As-Is artifacts. The form must validate required fields and show error messages matching the legacy behavior exactly.",
+      "expected_output": "Should produce Vue 3 form components with proper form validation, date picker integration, and pet type dropdown populated from the API. Must handle both create and edit modes. Server-side validation messages must be displayed. Must attempt to run E2E tests and backend tests.",
+      "files": [],
+      "expectations": [
+        "Vue component handles both add and edit pet flows",
+        "Form includes name, birth date, and pet type fields",
+        "TypeScript interfaces are defined for Pet and PetType",
+        "Form validation displays error messages matching legacy behavior",
+        "Missing As-Is artifacts trigger the input-missing protocol",
+        "Verification commands are attempted",
+        "A migration summary is produced"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Implement the ToBe Vue 3 + TypeScript version of Find Owners. When the first Playwright test run fails, diagnose the failures, fix the Vue implementation, and re-run until tests pass. Show me the full repair loop with what failed and what you fixed at each step.",
+      "expected_output": "Should demonstrate the repair loop: initial implementation, first test run with failures, diagnosis of each failure, fixes applied, re-run showing progress, and final passing state. The repair log should be detailed with failure reasons and fix descriptions.",
+      "files": [],
+      "expectations": [
+        "Playwright E2E tests are run at least once",
+        "A locator map is built by studying the test file before implementing",
+        "If failures occur, failure output is analyzed with specific reasons identified",
+        "A repair log table is included in the final summary (even if empty with explanation)",
+        "The fix-rerun loop continues until tests pass or blockers are reported",
+        "The final summary explains the prevention strategy or repair iterations"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Implement the ToBe Vue 3 + TypeScript version of the Vet List screen. Note: there are no As-Is artifacts yet for this screen - no tests/e2e/vet-list.spec.ts and no docs/modernization/vet-list-screen-spec.md exist. Handle this situation according to your input contract.",
+      "expected_output": "Should detect that required As-Is artifacts are missing, stop implementation, report exactly which artifacts are missing and their expected paths, and provide a ready-to-run prompt for the modernization-asis-test-guardrails skill to generate them. Should NOT proceed with implementation without the artifacts.",
+      "files": [],
+      "expectations": [
+        "The agent checks for tests/e2e/vet-list.spec.ts and reports it missing",
+        "The agent checks for docs/modernization/vet-list-screen-spec.md and reports it missing",
+        "Implementation is NOT started without As-Is artifacts",
+        "A ready-to-run prompt for modernization-asis-test-guardrails is provided",
+        "The response clearly states which artifacts are required before proceeding",
+        "The agent does not guess at screen behavior"
+      ]
+    }
+  ]
+}
